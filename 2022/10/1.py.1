@@ -1,0 +1,26 @@
+insts = [i.split(" ") for i in open("input", "r").read().split("\n")]
+insts = [i for i in insts if i != [""]]
+
+def add2sigs(cycle, X, sigs):
+    if (cycle == 20) or (cycle > 20 and (cycle-20)%40 == 0):
+        sigs.append(cycle*X)
+
+X = 1
+cycle = 0
+sig_strengths = []
+for inst in insts:
+    opc = inst[0]
+    if opc == "noop":
+        cycle += 1
+        add2sigs(cycle, X, sig_strengths)
+    elif opc == "addx":
+        V = int(inst[1])
+        cycle += 1
+        add2sigs(cycle, X, sig_strengths)
+        cycle += 1
+        add2sigs(cycle, X, sig_strengths)
+        X += V
+    #print(X, cycle, opc, V)
+    
+print(sig_strengths)
+print(sum(sig_strengths))
